@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>云平台监控</title>
+    <!--公共部分-->
+    <script src="/views/lib/jquery2.1.1.min.js"></script>
+    <script src="/views/lib/vue2.3.4.js"></script>
+    <!--私有部分-->
+    <style type="text/css">
+        body {
+            margin: 0px;
+        }
+        pre:nth-child(2n) {
+            font-size: 20px;
+            font-weight: bold;
+            color: green;
+        }
+        pre {
+            text-indent: -4em;
+        }
+    </style>
+</head>
+
+<body >
+<div id="msg">
+    <a href="#" class="hadoop">hadoop监控页面</a>
+    <a href="#" class="hbase">hbase监控页面</a>
+    <a href="#" class="dubbo-monitor">dubbo监控页面</a>
+    <a href="#" class="dubbo-admin">dubbo管理中心</a>
+    <a href="#" class="registry">私服镜像库</a>
+    <pre v-for="site in data">
+        {{ site }}
+    </pre>
+</div>
+<script type="text/javascript" src="/views/lib/util.js"></script>
+<script type="text/javascript" src="/views/js/baby.js"></script>
+</body>
+</html>

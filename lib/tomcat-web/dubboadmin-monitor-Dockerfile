@@ -1,0 +1,19 @@
+FROM DOCKER_REG_ADDR/centos7-ssh
+#===========================配置jdk==========================="
+#jdk
+RUN mkdir -p /home/jdk/jdk1.8.0_111
+ENV JAVA_HOME /home/jdk/jdk1.8.0_111
+ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+ENV PATH $PATH:$JAVA_HOME/bin
+COPY apache-tomcat-7.0.69 /home/tomcat7
+COPY dubbo-admin-2.8.4 /home/tomcat7/webapps/dubbo-admin-2.8.4
+ADD dubbo-monitor-simple-2.8.4-assembly.tar.gz /home/
+COPY dubbo-start.sh /home/
+RUN chmod u+x /home/dubbo-start.sh
+RUN chmod u+x /home/tomcat7/bin/*
+RUN yum install net-tools -y
+RUN sed -i "s/.*dubbo.registry.address.*/dubbo.registry.address=zookeeper:\/\/HOST_IP:2181/g" /home/tomcat7/webapps/dubbo-admin-2.8.4/WEB-INF/dubbo.properties
+RUN sed -i "s/.*dubbo.registry.address.*/dubbo.registry.address=zookeeper:\/\/HOST_IP:2181/g" /home/dubbo-monitor-simple-2.8.4/conf/dubbo.properties
+RUN sed -i "s/.*local.ip.*/local.ip=HOST_IP/g" /home/dubbo-monitor-simple-2.8.4/conf/dubbo.properties
+RUN sed -i "s/.*JAVA_HOME=.*//g" /home/dubbo-monitor-simple-2.8.4/bin/start.sh 
+RUN sed -i "s/\$JAVA_HOME\\\bin\\\java/\$JAVA_HOME\/bin\/java/g"  /home/dubbo-monitor-simple-2.8.4/bin/start.sh
